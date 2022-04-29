@@ -38,7 +38,7 @@ const question2 = new TextInputComponent() // We create a Text Input Component
           .setLabel('Wallet address')
           .setStyle('SHORT') //IMPORTANT: Text Input Component Style can be 'SHORT' or 'LONG'
           .setMinLength(4)
-          .setMaxLength(10)
+          .setMaxLength(100)
           .setPlaceholder('Write a text here')
           .setRequired(true) // If it's required or not
 const question3 = new TextInputComponent() // We create a Text Input Component
@@ -57,6 +57,8 @@ const question4 = new TextInputComponent() // We create a Text Input Component
           .setMaxLength(10)
           .setPlaceholder('Write a text here')
           .setRequired(true) // If it's required or not
+
+let components = [question1,question2,question3,question4];
 
 const modal = new Modal() // We create a Modal
       .setCustomId('customid')

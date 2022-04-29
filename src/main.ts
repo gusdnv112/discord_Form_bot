@@ -3,9 +3,11 @@ import { Intents, Interaction, Message, Formatters } from "discord.js";
 import { Client } from "discordx";
 import { dirname, importx } from "@discordx/importer";
 import { Koa } from "@discordx/koa";
+import fetch from "node-fetch";
 import dotenv  from "dotenv";
 import { ModalSubmitInteraction } from "discord-modals";
 import discordModals from "discord-modals";
+import * as request from 'request-promise-native';
 export const client = new Client({
   simpleCommand: {
     prefix: "!",
@@ -51,11 +53,22 @@ client.on("messageCreate", (message: Message) => {
   client.executeCommand(message);
 });
 client.on('modalSubmit', async (modal : ModalSubmitInteraction) => {
-  console.log(modal);
   if(modal.customId === 'customid'){
-    
     const firstResponse = modal.getTextInputValue('question1');
     const wallet = modal.getTextInputValue('wallet');
+    let params = `?module=account&action=balance&address=${wallet}&tag=latest&apikey=${process.env.ETHERSCAN_APIKEY}`
+
+    const url = "https://api.etherscan.io/api" + params;
+    console.log(url);
+    try{
+      const response = await fetch(url);
+      console.log(await response.json());
+
+    }catch(error){
+      const detail = error instanceof Error ? error.message : JSON.stringify(error);
+      throw new Error("api error :" + detail);
+    }
+    
     const twitter = modal.getTextInputValue('twitter');
     const telegram = modal.getTextInputValue('telegram');
 
